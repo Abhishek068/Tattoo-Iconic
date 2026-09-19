@@ -45,7 +45,7 @@ const HERO_PIECES: MasterpieceHeroItem[] = [
     title: "Lord Hanuman Ji — Mukut & Sanskrit Lettering",
     subtitle: "Sacred Chintamani Tilak & Micro-Dotwork",
     style: "Spiritual Realism",
-    image: "/images/tattoos/hanuman-tattoo.png",
+    image: "/images/tattoos/hanuman-tattoo.jpg",
     placement: "Forearm Placement",
     hours: "6.0 Hours",
   },

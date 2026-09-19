@@ -21,7 +21,7 @@ export const INSPIRATION_CATALOG: InspirationItem[] = [
     id: "insp-2",
     title: "Lord Hanuman Ji — Ornate Mukut & Saffron Tilak",
     description: "High-definition devotional portrait with traditional Hindi script and ornamental crown detailing.",
-    image: "/images/tattoos/hanuman-tattoo.png",
+    image: "/images/tattoos/hanuman-tattoo.jpg",
     source: "studio",
     instagram_permalink: "https://www.instagram.com/tatoo.iconic",
     instagram_likes: "4.8k",
@@ -251,7 +251,7 @@ export const INSPIRATION_CATALOG: InspirationItem[] = [
 export const INSTAGRAM_SYNCED_POSTS: InstagramPostItem[] = [
   {
     id: "ig-post-1",
-    media_url: "/images/tattoos/hanuman-tattoo.png",
+    media_url: "/images/tattoos/hanuman-tattoo.jpg",
     caption: "Lord Hanuman Ji Spiritual Realism with Sacred Saffron Tilak & Bold Calligraphy. Meticulous 6-hour master session at Bhadam private suite. #TattooIconic #JainikPatel #HanumanTattoo #GujaratTattoo",
     media_type: "IMAGE",
     permalink: "https://www.instagram.com/tatoo.iconic",

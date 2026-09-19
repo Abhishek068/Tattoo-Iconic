@@ -42,7 +42,7 @@ const STYLES_DATA = [
     subtitle: "Lord Shiva, Hanuman Ji & Sacred Mantras",
     description:
       "Spiritual iconography capturing reverence, golden saffron tilaks, and cosmic geometry aligned with the wearer's life path.",
-    image: "/images/tattoos/hanuman-tattoo.png",
+    image: "/images/tattoos/hanuman-tattoo.jpg",
     specs: "Dotwork Mandala · Saffron Pigments · Sacred Devotion",
   },
   {

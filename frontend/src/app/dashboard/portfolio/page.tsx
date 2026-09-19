@@ -60,7 +60,7 @@ export default function PortfolioManagerPage() {
     const newPiece = await portfolioService.createPortfolioItem({
       title,
       description,
-      image: imageUrl || "/images/tattoos/hanuman-tattoo.png",
+      image: imageUrl || "/images/tattoos/hanuman-tattoo.jpg",
       healed_image: null,
       style_tags: [primaryStyle, "Custom"],
       primary_style: primaryStyle,
