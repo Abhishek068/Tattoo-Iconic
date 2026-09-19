@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
@@ -96,10 +97,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* Bottom Profile & Return to Public Site */}
         <div className="p-4 border-t border-white/10 space-y-3">
           <div className="flex items-center gap-3 p-2 rounded-xl bg-white/5 border border-white/5">
-            <div className="h-9 w-9 rounded-full overflow-hidden shrink-0 border border-amber-500/40">
-              <img
+            <div className="h-9 w-9 rounded-full overflow-hidden shrink-0 border border-amber-500/40 relative">
+              <Image
                 src={ARTIST_PROFILE.profile_image}
                 alt={ARTIST_PROFILE.full_name}
+                width={36}
+                height={36}
                 className="h-full w-full object-cover"
               />
             </div>

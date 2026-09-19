@@ -21,6 +21,14 @@ export function CinematicInkCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
+    // Disable canvas on mobile devices, touchscreens, or if reduced motion is preferred
+    if (typeof window === "undefined") return;
+    const isMobile = window.innerWidth < 768 || window.matchMedia("(pointer: coarse)").matches;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (isMobile || prefersReducedMotion) {
+      return;
+    }
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -40,6 +48,10 @@ export function CinematicInkCanvas() {
 
     const handleResize = () => {
       if (!canvas) return;
+      if (window.innerWidth < 768) {
+        cancelAnimationFrame(animationFrameId);
+        return;
+      }
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
     };
@@ -55,7 +67,7 @@ export function CinematicInkCanvas() {
     // Background Dust / Ambient Embers
     const particles: InkParticle[] = [];
     const ribbonParticles: InkParticle[] = [];
-    const MAX_AMBIENT = window.innerWidth < 768 ? 40 : 80;
+    const MAX_AMBIENT = 60;
 
     const goldColor = "rgba(212, 175, 55, ";
     const bronzeColor = "rgba(200, 120, 60, ";

@@ -49,9 +49,98 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "TattooParlor",
+  "@id": "https://tattooiconic.in/#organization",
+  name: "Tattoo Iconic",
+  alternateName: "Tattoo Iconic by Jainik Patel",
+  description:
+    "Premier bespoke custom tattoo studio by Solo Master Artist Jainik Patel. Specializing in sacred spiritual tattoos, dark realism, fine-line, and portraits. Private studio in Bhadam, Rajpipla and luxury mobile doorstep service across Gujarat.",
+  url: "https://tattooiconic.in",
+  logo: "https://tattooiconic.in/images/tattoo-iconic-logo.png",
+  image: "https://tattooiconic.in/images/hero/slide-1-lion-crown.jpg",
+  telephone: "+918238767100",
+  email: "jainikpatel.tattoo@gmail.com",
+  priceRange: "₹₹",
+  currenciesAccepted: "INR",
+  paymentAccepted: "Cash, UPI, Credit Card, Bank Transfer",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Bhadam, Main Road",
+    addressLocality: "Rajpipla",
+    addressRegion: "Gujarat",
+    postalCode: "393145",
+    addressCountry: "IN",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 21.8687,
+    longitude: 73.5027,
+  },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ],
+      opens: "10:00",
+      closes: "21:00",
+    },
+  ],
+  sameAs: [
+    "https://instagram.com/jainikpatel.tattoo",
+    "https://wa.me/918238767100",
+  ],
+  founder: {
+    "@type": "Person",
+    name: "Jainik Patel",
+    jobTitle: "Master Tattoo Artist & Founder",
+    image: "https://tattooiconic.in/images/tattoo-iconic-logo.png",
+  },
+  areaServed: [
+    {
+      "@type": "AdministrativeArea",
+      name: "Rajpipla",
+    },
+    {
+      "@type": "AdministrativeArea",
+      name: "Narmada",
+    },
+    {
+      "@type": "AdministrativeArea",
+      name: "Vadodara",
+    },
+    {
+      "@type": "AdministrativeArea",
+      name: "Surat",
+    },
+    {
+      "@type": "AdministrativeArea",
+      name: "Bharuch",
+    },
+    {
+      "@type": "AdministrativeArea",
+      name: "Gujarat",
+    },
+  ],
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${fontDisplay.variable} ${fontBody.variable} ${fontSerif.variable} dark`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="min-h-screen bg-ink-950 text-ink-100 antialiased selection:bg-brand selection:text-white">
         <Providers>
           {children}

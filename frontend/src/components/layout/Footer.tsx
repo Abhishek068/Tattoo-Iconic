@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   Instagram,
   Mail,
@@ -18,40 +19,44 @@ const FOOTER_SECTIONS = [
     title: "Explore",
     links: [
       { href: "/portfolio", label: "Tattoo Portfolio" },
+      { href: "/services", label: "Services & Rates" },
       { href: "/about", label: "About Jainik Patel" },
-      { href: "/services", label: "Services & Pricing" },
-      { href: "/reviews", label: "Customer Reviews" },
-      { href: "/contact", label: "Get in Touch" },
+      { href: "/reviews", label: "Client Reviews" },
     ],
   },
   {
-    title: "Services",
+    title: "Studio & Experience",
     links: [
-      { href: "/services#custom-tattoos", label: "Custom Tattoo Art" },
-      { href: "/services#home-service", label: "Luxury Home Service" },
-      { href: "/services#small-tattoos", label: "Fine Line & Minimalist" },
-      { href: "/services#large-scale-tattoos", label: "Full Sleeves & Projects" },
-      { href: "/services#cover-up-tattoos", label: "Cover-ups & Reworks" },
-      { href: "/services#tattoo-consultation", label: "1-on-1 Consultation" },
+      { href: "/aftercare", label: "Aftercare Guide" },
+      { href: "/booking", label: "Online Consultation" },
+      { href: "/contact", label: "Bhadam Studio Location" },
+      { href: "/flash", label: "Flash Designs" },
     ],
   },
   {
-    title: "Client Care",
+    title: "Direct Connect",
     links: [
-      { href: "/booking", label: "Book Appointment" },
-      { href: "/aftercare", label: "Medical Aftercare Protocol" },
-      { href: "/contact#faqs", label: "Studio FAQs & Policies" },
-      { href: "/dashboard", label: "Artist / Admin Portal" },
+      {
+        href: `https://wa.me/${ARTIST_PROFILE.whatsapp_number.replace(/\+/g, "")}`,
+        label: "WhatsApp Booking",
+        external: true,
+      },
+      {
+        href: `https://instagram.com/${ARTIST_PROFILE.instagram_handle}`,
+        label: "Instagram Gallery",
+        external: true,
+      },
+      { href: `tel:${ARTIST_PROFILE.phone.replace(/\s+/g, "")}`, label: "Direct Call" },
+      { href: "/login", label: "Artist Dashboard" },
     ],
   },
 ];
 
 export function Footer() {
   return (
-    <footer className="bg-[#060709] text-ink-300 relative overflow-hidden">
-      {/* Subtle Ambient Lighting */}
-      <div className="accent-glow left-1/4 bottom-0 h-96 w-96 bg-brand/10" />
-      <div className="accent-glow right-10 bottom-10 h-80 w-80 bg-gold/5" />
+    <footer className="border-t border-white/10 bg-ink-950 text-ink-300 relative overflow-hidden">
+      {/* Ambient gold glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 h-40 w-3/4 rounded-full bg-amber-500/5 blur-3xl pointer-events-none" />
 
       <div className="container-page py-16 sm:py-20 relative z-10">
         <div className="grid gap-12 lg:grid-cols-12">
@@ -59,9 +64,11 @@ export function Footer() {
           <div className="lg:col-span-4 space-y-5">
             <div className="flex items-center gap-3.5">
               <div className="relative flex h-14 w-14 items-center justify-center shrink-0 rounded-full shadow-2xl overflow-hidden">
-                <img
-                  src="/images/tattoo-iconic-logo.png?v=5"
-                  alt="Tattoo Iconic Logo"
+                <Image
+                  src="/images/tattoo-iconic-logo.png"
+                  alt="Tattoo Iconic — Master Tattoo Studio Logo"
+                  width={56}
+                  height={56}
                   className="h-full w-full object-cover rounded-full"
                 />
               </div>
