@@ -26,6 +26,7 @@ const fontSerif = Cinzel({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://tattooiconic.in"),
   title: {
     default: "Tattoo Iconic | Jainik Patel — Master Tattoo Studio & Luxury Home Service",
     template: "%s | Tattoo Iconic",
