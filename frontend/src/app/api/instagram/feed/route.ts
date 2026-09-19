@@ -14,6 +14,7 @@ export async function GET() {
   try {
     const res = await fetch(`${DJANGO_API_URL}/portfolio/?page_size=50`, {
       next: { revalidate: 60 },
+      signal: AbortSignal.timeout(2000),
     });
     if (res.ok) {
       const data = await res.json();
@@ -36,8 +37,8 @@ export async function GET() {
         }));
       }
     }
-  } catch (err) {
-    console.warn("Could not reach Django portfolio API:", err);
+  } catch (err: any) {
+    // Graceful fallback to static portfolio feed if Django is offline
   }
 
   // 2. Fallback to curated studio pieces if database is starting up

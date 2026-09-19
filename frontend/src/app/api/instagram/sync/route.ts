@@ -17,6 +17,7 @@ export async function POST(req: Request) {
         ...(authHeader ? { Authorization: authHeader } : {}),
       },
       body: JSON.stringify(body),
+      signal: AbortSignal.timeout(3000),
     });
 
     if (res.ok) {
