@@ -81,8 +81,8 @@ export default function AftercarePage() {
         <div className="mt-12 text-center">
           <p className="text-ink-500">Questions about healing? Get in touch.</p>
           <div className="mt-4 flex justify-center gap-3">
-            <a href="tel:+442012345678" className="btn-secondary">Call us</a>
-            <a href="mailto:hello@inkandiron.co.uk" className="btn-primary">Email us</a>
+            <a href="tel:+918238767100" className="btn-secondary">Call +91 8238767100</a>
+            <a href="mailto:jainikpatel.tattoo@gmail.com" className="btn-primary">Email Jainik Patel</a>
           </div>
         </div>
       </main>

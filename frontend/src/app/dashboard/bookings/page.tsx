@@ -329,7 +329,7 @@ function BookingsContent() {
                       onClick={() => handleStatusChange(activeBooking.id, "deposit_required")}
                       className="btn-gold text-xs py-2 px-4"
                     >
-                      Require Deposit (£80)
+                      Require Deposit (₹1,000)
                     </button>
                     <button
                       onClick={() => handleStatusChange(activeBooking.id, "rejected")}

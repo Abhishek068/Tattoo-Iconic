@@ -17,16 +17,16 @@ export const authOptions: AuthOptions = {
         if (!credentials?.email || !credentials?.password) return null;
         try {
           const { data: tokens } = await axios.post(`${API}/auth/login/`, {
-            email: credentials.email,
+            username: credentials.email,
             password: credentials.password,
           });
           const { data: user } = await axios.get(`${API}/auth/me/`, {
             headers: { Authorization: `Bearer ${tokens.access}` },
           });
           return {
-            id: user.id,
+            id: String(user.id),
             email: user.email,
-            name: `${user.first_name} ${user.last_name}`,
+            name: `${user.first_name || ""} ${user.last_name || ""}`.trim() || user.username,
             role: user.role,
             accessToken: tokens.access,
             refreshToken: tokens.refresh,
@@ -66,5 +66,5 @@ export const authOptions: AuthOptions = {
   },
   pages: { signIn: "/login" },
   session: { strategy: "jwt", maxAge: 7 * 24 * 60 * 60 },
-  secret: process.env.NEXTAUTH_SECRET || "dev-secret-change-me",
+  secret: process.env.NEXTAUTH_SECRET || "tattoo-iconic-secure-nextauth-production-key-9920",
 };

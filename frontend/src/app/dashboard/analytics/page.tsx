@@ -19,7 +19,7 @@ export default function AnalyticsPage() {
     { label: "Pending", value: pending, icon: Calendar, color: "text-yellow-600 bg-yellow-50" },
     { label: "Portfolio Pieces", value: portfolioCount, icon: ImageIcon, color: "text-purple-600 bg-purple-50" },
     { label: "Avg Rating", value: avgRating, icon: Star, color: "text-yellow-600 bg-yellow-50" },
-    { label: "Deposits Collected", value: `£${revenue.toFixed(0)}`, icon: DollarSign, color: "text-green-600 bg-green-50" },
+    { label: "Deposits Collected", value: `₹${Number(revenue).toLocaleString("en-IN")}`, icon: DollarSign, color: "text-green-600 bg-green-50" },
   ];
 
   return (

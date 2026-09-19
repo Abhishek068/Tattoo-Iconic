@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework.test import APIClient
@@ -75,6 +76,8 @@ class PortfolioApiTests(TestCase):
     def test_artist_approval_workflow(self):
         """Artist can approve pending posts and publish them to the portfolio"""
         self.assertEqual(self.pending_item.status, "PENDING")
+        user = User.objects.create_user(username="testartist", password="password", is_staff=True)
+        self.client.force_authenticate(user=user)
         res = self.client.post(
             f"/api/artist/instagram/{self.pending_item.id}/approve/",
             data={"style_name": "Spiritual", "placement_name": "Forearm", "title": "Approved Hanuman Piece"},

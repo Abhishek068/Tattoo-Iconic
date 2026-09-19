@@ -28,6 +28,8 @@ INSTALLED_APPS = [
     # Local Apps
     "portfolio.apps.PortfolioConfig",
     "instagram_sync.apps.InstagramSyncConfig",
+    "authentication.apps.AuthenticationConfig",
+    "bookings.apps.BookingsConfig",
 ]
 
 MIDDLEWARE = [
@@ -123,7 +125,7 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_ALL_ORIGINS = DEBUG  # For ease of development testing
 CORS_ALLOW_CREDENTIALS = True
 
-# Django REST Framework Configuration (Phase 8 & 19)
+# Django REST Framework Configuration
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 24,
@@ -133,9 +135,19 @@ REST_FRAMEWORK = {
         "rest_framework.filters.OrderingFilter",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.BasicAuthentication",
     ],
+}
+
+from datetime import timedelta
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=14),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": False,
+    "AUTH_HEADER_TYPES": ("Bearer", "JWT"),
 }
 
 # Instagram API & Sync Settings (Phase 1, 4, 18)

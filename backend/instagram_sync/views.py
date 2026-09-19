@@ -1,9 +1,8 @@
 import logging
 from django.utils import timezone
 from django.conf import settings
-from rest_framework import views, status, generics
+from rest_framework import views, status, generics, permissions
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
 from portfolio.models import PortfolioItem, SyncBatchLog, InstagramSyncRecord
 from portfolio.serializers import (
     PortfolioItemDetailSerializer,
@@ -16,11 +15,12 @@ from .services.sync_engine import SyncEngine
 
 logger = logging.getLogger(__name__)
 
+
 class InstagramStatusView(views.APIView):
     """
     Artist Dashboard Instagram Status Hub (Phase 11 & 19)
     """
-    permission_classes = [AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         client = InstagramClient()
@@ -61,8 +61,9 @@ class InstagramStatusView(views.APIView):
 class TriggerSyncView(views.APIView):
     """
     Trigger immediate background synchronization (Phase 4 & 18)
+    Protected: Only authenticated artist
     """
-    permission_classes = [AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
         auto_publish = request.data.get("auto_publish", getattr(settings, "INSTAGRAM_AUTO_PUBLISH", False))
@@ -83,8 +84,9 @@ class TriggerSyncView(views.APIView):
 class PendingReviewListView(generics.ListAPIView):
     """
     Pending Review Queue for Artist Approval (Phase 5 & 11)
+    Protected: Only authenticated artist
     """
-    permission_classes = [AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = PortfolioItemDetailSerializer
 
     def get_queryset(self):
@@ -99,8 +101,9 @@ class PendingReviewListView(generics.ListAPIView):
 class ApprovePostView(views.APIView):
     """
     Approve single Instagram post with optional metadata edits (Phase 5 & 18)
+    Protected: Only authenticated artist
     """
-    permission_classes = [AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, item_id):
         item = PortfolioItem.objects.filter(id=item_id).first()
@@ -136,8 +139,9 @@ class ApprovePostView(views.APIView):
 class ApproveAllPendingView(views.APIView):
     """
     Approve all pending items at once (Phase 5 & 18)
+    Protected: Only authenticated artist
     """
-    permission_classes = [AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
         updated = PortfolioItem.objects.filter(status="PENDING").update(
@@ -153,8 +157,9 @@ class ApproveAllPendingView(views.APIView):
 class HidePostView(views.APIView):
     """
     Hide post from public portfolio (Phase 5 & 18)
+    Protected: Only authenticated artist
     """
-    permission_classes = [AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, item_id):
         item = PortfolioItem.objects.filter(id=item_id).first()
@@ -174,26 +179,44 @@ class HidePostView(views.APIView):
 class RetryFailedSyncView(views.APIView):
     """
     Retry failed imports (Phase 17 & 18)
+    Protected: Only authenticated artist.
+    Actually attempts re-processing of failed records.
     """
-    permission_classes = [AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
         failed_records = InstagramSyncRecord.objects.filter(sync_status="FAILED")
-        count = failed_records.count()
-        failed_records.update(sync_status="SUCCESS", error_message="")
+        total_failed = failed_records.count()
+        recovered_count = 0
+
+        for record in failed_records:
+            if record.raw_payload:
+                try:
+                    SyncEngine.process_single_post(record.raw_payload, auto_publish=False)
+                    record.sync_status = "SUCCESS"
+                    record.error_message = ""
+                    record.last_synced_at = timezone.now()
+                    record.save()
+                    recovered_count += 1
+                except Exception as e:
+                    record.error_message = str(e)
+                    record.save()
+                    logger.warning("Retry failed for record %s: %s", record.instagram_id, e)
 
         return Response({
             "success": True,
-            "message": f"Retried {count} failed records.",
-            "retried_count": count,
+            "message": f"Processed {total_failed} failed records. {recovered_count} successfully imported.",
+            "total_retried": total_failed,
+            "recovered_count": recovered_count,
         })
 
 
 class SyncHistoryListView(generics.ListAPIView):
     """
     Sync Audit Log History (Phase 12)
+    Protected: Only authenticated artist
     """
-    permission_classes = [AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = SyncBatchLogSerializer
     queryset = SyncBatchLog.objects.all().order_by("-started_at")[:50]
 
@@ -201,8 +224,9 @@ class SyncHistoryListView(generics.ListAPIView):
 class ImportJsonArchiveView(views.APIView):
     """
     Bulk Import from Instagram JSON / ZIP Data Export (Phase 2)
+    Protected: Only authenticated artist
     """
-    permission_classes = [AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
         file_obj = request.FILES.get("file")

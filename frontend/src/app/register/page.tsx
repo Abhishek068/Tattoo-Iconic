@@ -51,7 +51,7 @@ export default function RegisterPage() {
             </div>
             <div><label className="label">Email</label><input type="email" {...register("email")} className="input-field" placeholder="you@example.com" />{errors.email && <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>}</div>
             <div><label className="label">Username</label><input {...register("username")} className="input-field" />{errors.username && <p className="mt-1 text-xs text-red-600">{errors.username.message}</p>}</div>
-            <div><label className="label">Phone (optional)</label><input {...register("phone")} className="input-field" placeholder="+44…" /></div>
+            <div><label className="label">Phone (optional)</label><input {...register("phone")} className="input-field" placeholder="+91 8238767100" /></div>
             <div><label className="label">Password</label><input type="password" {...register("password")} className="input-field" />{errors.password && <p className="mt-1 text-xs text-red-600">{errors.password.message}</p>}</div>
             <div><label className="label">Confirm password</label><input type="password" {...register("password_confirm")} className="input-field" />{errors.password_confirm && <p className="mt-1 text-xs text-red-600">{errors.password_confirm.message}</p>}</div>
             <button type="submit" disabled={loading} className="btn-primary w-full">{loading ? "Creating account…" : "Create Account"}</button>

@@ -176,7 +176,7 @@ export default function ContactPage() {
                   <input
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    placeholder="e.g. +44 7700 900123"
+                    placeholder="e.g. +91 8238767100"
                     className="input-field"
                   />
                 </div>

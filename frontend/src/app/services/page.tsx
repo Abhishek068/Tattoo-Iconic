@@ -111,14 +111,14 @@ export default function ServicesPage() {
                     <span className="text-ink-400">Pricing Model</span>
                     <span className="font-semibold text-amber-300">
                       {service.starting_price
-                        ? `From £${service.starting_price}`
+                        ? `From ₹${service.starting_price.toLocaleString("en-IN")}`
                         : service.price_model}
                     </span>
                   </div>
                   {service.hourly_rate && (
                     <div className="flex justify-between">
                       <span className="text-ink-400">Studio Hourly Rate</span>
-                      <span className="font-semibold text-white">£{service.hourly_rate} / hr</span>
+                      <span className="font-semibold text-white">₹{service.hourly_rate.toLocaleString("en-IN")} / hr</span>
                     </div>
                   )}
                 </div>

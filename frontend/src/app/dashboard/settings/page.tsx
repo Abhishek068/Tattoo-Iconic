@@ -73,7 +73,7 @@ export default function StudioSettingsPage() {
 
           <div className="grid sm:grid-cols-3 gap-4">
             <div>
-              <label className="label">Hourly Rate (£ GBP)</label>
+              <label className="label">Hourly Rate (₹ INR)</label>
               <input
                 type="number"
                 value={hourlyRate}
@@ -83,7 +83,7 @@ export default function StudioSettingsPage() {
             </div>
 
             <div>
-              <label className="label">Minimum Deposit (£ GBP)</label>
+              <label className="label">Minimum Deposit (₹ INR)</label>
               <input
                 type="number"
                 value={deposit}
