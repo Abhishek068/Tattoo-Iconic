@@ -25,7 +25,7 @@ npm install
 
 Ensure `.env.local` exists (copied from `.env.example`):
 ```env
-ARTIST_DASHBOARD_SECRET=tattoo-iconic-artist-key-2026
+
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 NEXT_PUBLIC_INSTAGRAM_HANDLE=tatoo.iconic
 ```
