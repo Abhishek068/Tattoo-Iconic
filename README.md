@@ -43,7 +43,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 - **Public Site**: [http://localhost:3000](http://localhost:3000)
 - **Artist Access Portal**: [http://localhost:3000/artist-access](http://localhost:3000/artist-access)
-- **Default Dev Security Key**: `tattoo-iconic-artist-key-2026`
+
 - **Protected Dashboard**: [http://localhost:3000/artist-dashboard](http://localhost:3000/artist-dashboard)
 
 All `/artist-dashboard/*` routes are protected server-side with Next.js Middleware. Unauthenticated requests are automatically redirected to `/artist-access`.
