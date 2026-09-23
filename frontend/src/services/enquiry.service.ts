@@ -86,6 +86,8 @@ export const enquiryService = {
       const response = await fetch("/api/enquiry", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        cache: "no-store",
       });
 
       if (!response.ok) {

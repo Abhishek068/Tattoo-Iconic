@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { generateClientId } from "@/lib/clientId";
 import { appendEnquiryToGoogleSheets, getStoredEnquiries } from "@/lib/googleSheets";
 import { sendEnquiryEmailNotification } from "@/lib/email";
 import { whatsappService } from "@/services/whatsapp.service";
+import { verifySessionToken, ARTIST_COOKIE_NAME } from "@/lib/session";
 import type { TattooEnquiry, EnquiryFormData } from "@/types";
+
+export const dynamic = "force-dynamic";
 
 /**
  * Sanitize text to prevent spreadsheet formula injection and HTML injection
@@ -137,16 +141,40 @@ export async function POST(req: NextRequest) {
 
 /**
  * GET /api/enquiry
- * Retrieves recorded enquiries for the Artist Dashboard
+ * Protected: Retrieves recorded enquiries for authenticated Artist sessions
  */
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    // 1. Verify Artist Session from Cookie or Authorization Header
+    const cookieStore = cookies();
+    let token = cookieStore.get(ARTIST_COOKIE_NAME)?.value || req.cookies.get(ARTIST_COOKIE_NAME)?.value;
+
+    if (!token) {
+      const authHeader = req.headers.get("authorization");
+      if (authHeader && authHeader.startsWith("Bearer ")) {
+        token = authHeader.slice(7).trim();
+      }
+    }
+
+    const session = await verifySessionToken(token);
+
+    if (!session || session.role !== "artist") {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Unauthorized access. Artist session required.",
+        },
+        { status: 401 }
+      );
+    }
+
+    // 2. Fetch Stored Enquiries (only authorized for artist)
     const enquiries = getStoredEnquiries();
     return NextResponse.json({ success: true, enquiries });
   } catch (err) {
     console.error("[GET /api/enquiry] Error:", (err as Error).message);
     return NextResponse.json(
-      { success: false, enquiries: [] },
+      { success: false, error: "Failed to retrieve enquiries." },
       { status: 500 }
     );
   }
