@@ -70,7 +70,7 @@ export const ARTIST_PROFILE: ArtistProfile = {
   instagram_handle: "tatoo.iconic",
   phone: "+91 8238767100",
   whatsapp_number: "+918238767100",
-  email: "jainikpatel.tattoo@gmail.com",
+  email: "Jainik.patel.33@gmail.com",
   profile_image: "/images/tattoo-iconic-logo.png",
   studio_image: "https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?auto=format&fit=crop&w=1200&q=80",
   hourly_rate: 1500,

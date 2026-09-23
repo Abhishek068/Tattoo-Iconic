@@ -134,3 +134,7 @@ export function FilterChip({ label, active, onClick, size = "md" }: {
     </button>
   );
 }
+
+// ── WhatsApp Button & Icon ──
+export { WhatsAppButton, WhatsAppIcon } from "./WhatsAppButton";
+

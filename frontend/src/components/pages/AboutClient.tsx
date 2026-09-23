@@ -17,7 +17,7 @@ export function AboutClient() {
     <>
       <Navbar />
 
-      <main className="container-hero py-12 sm:py-16 space-y-20">
+      <main className="container-hero pt-28 sm:pt-36 pb-16 sm:pb-20 space-y-16 sm:space-y-20">
         {/* Hero Banner */}
         <div className="grid gap-12 lg:grid-cols-12 items-center">
           <motion.div

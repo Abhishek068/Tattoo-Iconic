@@ -47,7 +47,7 @@ const FOOTER_SECTIONS = [
         external: true,
       },
       { href: `tel:${ARTIST_PROFILE.phone.replace(/\s+/g, "")}`, label: "Direct Call" },
-      { href: "/login", label: "Artist Dashboard" },
+      { href: "/artist-access", label: "Artist Access" },
     ],
   },
 ];
@@ -149,10 +149,19 @@ export function Footer() {
         </div>
 
         {/* Privacy Note & Bottom Bar */}
-        <div className="mt-14 pt-8 text-center text-xs text-ink-500">
+        <div className="mt-14 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-ink-500">
           <p>
             © {new Date().getFullYear()} Tattoo Iconic · Jainik Patel. All rights reserved.
           </p>
+          <div className="flex items-center gap-4">
+            <Link href="/privacy" className="hover:text-amber-300 transition-colors">
+              Privacy Policy
+            </Link>
+            <span>·</span>
+            <Link href="/enquire" className="hover:text-amber-300 transition-colors">
+              Online Enquiry
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

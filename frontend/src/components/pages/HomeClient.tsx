@@ -134,48 +134,64 @@ export function HomeClient() {
         {/* ========================================================================= */}
         {/* CHAPTER 06: FINAL INVITATION / BESPOKE BOOKING CTA                        */}
         {/* ========================================================================= */}
-        <SectionReveal className="pb-28">
-          <div className="container-hero">
-            <div className="relative rounded-3xl border border-amber-500/30 bg-gradient-to-br from-[#181922] via-[#0d0e13] to-[#08080c] p-8 sm:p-16 overflow-hidden text-center shadow-2xl">
-              <div className="absolute top-0 right-0 h-96 w-96 rounded-full bg-amber-500/10 blur-[120px] pointer-events-none" />
-              <div className="absolute bottom-0 left-0 h-96 w-96 rounded-full bg-brand/10 blur-[120px] pointer-events-none" />
+        <section className="relative w-full py-28 sm:py-36 overflow-hidden flex items-center justify-center text-center bg-[#060709]">
+          {/* ── Full Width Transparent Advanced Tattoo Masterpiece Background ── */}
+          <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+            <Image
+              src="/images/cta-tattoo-bg.jpg"
+              alt="Advanced Tattoo Masterpiece Artwork"
+              fill
+              className="object-cover object-center scale-100 opacity-90"
+              priority
+            />
+            {/* Seamless Top & Bottom Feathered Fade — No Divider Lines */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#060709] via-transparent to-[#060709]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#060709]/60 via-transparent to-[#060709]/60" />
+            <div className="absolute inset-0 bg-black/20" />
+          </div>
 
-              <div className="relative z-10 max-w-2xl mx-auto space-y-6">
-                <span className="text-xs uppercase tracking-[0.25em] text-amber-400 font-bold">
-                  Bespoke Consultation
-                </span>
-                <MaskedHeading>
-                  <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl text-[#f5f2eb] font-bold uppercase tracking-tight">
-                    READY TO BRING YOUR VISION TO LIFE?
-                  </h2>
-                </MaskedHeading>
-                <p className="text-sm sm:text-base text-[#a3a4b2] leading-relaxed">
-                  Book a private appointment at our Bhadam studio or request luxury doorstep home service across Gujarat. Every piece is custom-crafted to your anatomy.
-                </p>
+          {/* Ambient Golden Glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-amber-500/10 blur-[140px] pointer-events-none" />
 
-                <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
-                  <MagneticElement strength={0.4}>
-                    <Link
-                      href="/booking"
-                      className="btn-gold px-9 py-4 text-xs font-bold uppercase tracking-[0.2em] shadow-2xl inline-block"
-                    >
-                      <RollingText text="START CONSULTATION" />
-                    </Link>
-                  </MagneticElement>
+          <div className="container-page relative z-10 max-w-3xl mx-auto space-y-6">
+            <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-black/60 px-4 py-1.5 backdrop-blur-md">
+              <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
+              <span className="text-xs uppercase tracking-[0.25em] text-amber-300 font-bold">
+                Bespoke Consultation
+              </span>
+            </div>
 
-                  <MagneticElement strength={0.3}>
-                    <Link
-                      href="/portfolio"
-                      className="btn-secondary px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] inline-block"
-                    >
-                      <RollingText text="EXPLORE PORTFOLIO" />
-                    </Link>
-                  </MagneticElement>
-                </div>
-              </div>
+            <MaskedHeading>
+              <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl text-[#f5f2eb] font-bold uppercase tracking-tight drop-shadow-[0_4px_30px_rgba(0,0,0,0.95)]">
+                READY TO BRING YOUR VISION TO LIFE?
+              </h2>
+            </MaskedHeading>
+
+            <p className="text-sm sm:text-base text-[#e2e4f0] leading-relaxed max-w-xl mx-auto drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] font-light">
+              Book a private appointment at our Bhadam studio or request luxury doorstep home service across Gujarat. Every piece is custom-crafted to your anatomy.
+            </p>
+
+            <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
+              <MagneticElement strength={0.4}>
+                <Link
+                  href="/booking"
+                  className="btn-gold px-9 py-4 text-xs font-bold uppercase tracking-[0.2em] shadow-2xl shadow-amber-500/30 hover:shadow-amber-500/50 inline-block"
+                >
+                  <RollingText text="START CONSULTATION" />
+                </Link>
+              </MagneticElement>
+
+              <MagneticElement strength={0.3}>
+                <Link
+                  href="/portfolio"
+                  className="btn-secondary px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] bg-black/60 backdrop-blur-md border-white/20 hover:border-amber-400/60 inline-block text-white"
+                >
+                  <RollingText text="EXPLORE PORTFOLIO" />
+                </Link>
+              </MagneticElement>
             </div>
           </div>
-        </SectionReveal>
+        </section>
       </main>
 
       <Footer />

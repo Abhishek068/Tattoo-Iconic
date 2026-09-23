@@ -1,22 +1,52 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { getToken } from "next-auth/jwt";
+import { verifySessionToken, ARTIST_COOKIE_NAME } from "@/lib/session";
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Protect all /dashboard routes
-  if (pathname.startsWith("/dashboard")) {
-    const token = await getToken({
-      req,
-      secret: process.env.NEXTAUTH_SECRET || "tattoo-iconic-secure-nextauth-production-key-9920",
-    });
+  // 1. Redirect legacy /dashboard routes to /artist-dashboard
+  if (pathname === "/dashboard" || pathname.startsWith("/dashboard/")) {
+    const targetPath = pathname.replace(/^\/dashboard/, "/artist-dashboard");
+    const redirectUrl = req.nextUrl.clone();
+    redirectUrl.pathname = targetPath;
+    return NextResponse.redirect(redirectUrl);
+  }
 
-    if (!token) {
-      const url = req.nextUrl.clone();
-      url.pathname = "/login";
-      url.searchParams.set("callbackUrl", pathname);
-      return NextResponse.redirect(url);
+  // 2. Protect all /artist-dashboard routes server-side
+  if (pathname === "/artist-dashboard" || pathname.startsWith("/artist-dashboard/")) {
+    const sessionCookie = req.cookies.get(ARTIST_COOKIE_NAME)?.value;
+    const session = await verifySessionToken(sessionCookie);
+
+    if (!session) {
+      const accessUrl = req.nextUrl.clone();
+      accessUrl.pathname = "/artist-access";
+      accessUrl.searchParams.delete("callbackUrl");
+
+      const response = NextResponse.redirect(accessUrl);
+
+      // If an invalid or expired cookie was present, clear it
+      if (sessionCookie) {
+        response.cookies.set({
+          name: ARTIST_COOKIE_NAME,
+          value: "",
+          path: "/",
+          maxAge: 0,
+        });
+      }
+
+      return response;
+    }
+  }
+
+  // 3. If already authenticated and visiting /artist-access, redirect to /artist-dashboard
+  if (pathname === "/artist-access") {
+    const sessionCookie = req.cookies.get(ARTIST_COOKIE_NAME)?.value;
+    const session = await verifySessionToken(sessionCookie);
+    if (session) {
+      const dashboardUrl = req.nextUrl.clone();
+      dashboardUrl.pathname = "/artist-dashboard";
+      return NextResponse.redirect(dashboardUrl);
     }
   }
 
@@ -24,5 +54,11 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: [
+    "/artist-dashboard/:path*",
+    "/artist-dashboard",
+    "/dashboard/:path*",
+    "/dashboard",
+    "/artist-access",
+  ],
 };

@@ -37,7 +37,7 @@ export function ReviewsClient() {
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
   const [healedTime, setHealedTime] = useState("Healed 1 month");
-  
+
   // Uploaded media files
   const [uploadedPhotos, setUploadedPhotos] = useState<string[]>([]);
   const [uploadedVideos, setUploadedVideos] = useState<string[]>([]);
@@ -123,7 +123,7 @@ export function ReviewsClient() {
     <>
       <Navbar />
 
-      <main className="container-hero py-12 sm:py-16 space-y-16">
+      <main className="container-hero pt-28 sm:pt-36 pb-16 sm:pb-20 space-y-16">
         {/* Header & Rating Breakdown Banner */}
         <div className="grid gap-8 lg:grid-cols-12 items-center">
           <div className="lg:col-span-7 space-y-4">
@@ -170,11 +170,10 @@ export function ReviewsClient() {
               <button
                 key={tab}
                 onClick={() => setFilterType(tab)}
-                className={`rounded-xl px-4 py-2 text-xs font-semibold transition-all ${
-                  filterType === tab
+                className={`rounded-xl px-4 py-2 text-xs font-semibold transition-all ${filterType === tab
                     ? "bg-gradient-to-r from-amber-500 to-brand text-white shadow-md shadow-brand/20 border border-amber-300/30"
                     : "border border-white/10 bg-white/5 text-ink-300 hover:text-white"
-                }`}
+                  }`}
               >
                 {tab}
               </button>
@@ -374,11 +373,10 @@ export function ReviewsClient() {
                         key={s}
                         type="button"
                         onClick={() => setRating(s)}
-                        className={`flex-1 py-2.5 rounded-xl border text-sm font-bold transition-all ${
-                          rating >= s
+                        className={`flex-1 py-2.5 rounded-xl border text-sm font-bold transition-all ${rating >= s
                             ? "border-amber-400 bg-amber-500/20 text-amber-300 shadow-md shadow-amber-500/10"
                             : "border-white/10 bg-white/5 text-ink-500"
-                        }`}
+                          }`}
                       >
                         ★ {s}
                       </button>

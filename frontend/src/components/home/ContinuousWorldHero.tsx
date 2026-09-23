@@ -315,27 +315,27 @@ export function ContinuousWorldHero() {
             className="flex flex-col items-center space-y-6 sm:space-y-7"
           >
             {/* Dynamic Headline */}
-            <h1 className="font-serif text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-extrabold uppercase tracking-[0.14em] text-[#f5f2eb] drop-shadow-[0_10px_40px_rgba(0,0,0,0.98)] leading-[0.92]">
+            <h1 className="font-serif text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-extrabold uppercase tracking-[0.08em] sm:tracking-[0.14em] text-[#f5f2eb] drop-shadow-[0_10px_40px_rgba(0,0,0,0.98)] leading-[0.95] flex flex-col items-center">
               {/* Line 1 */}
-              <div className="overflow-hidden py-1">
+              <span className="block overflow-hidden py-1">
                 <span className="inline-block">
                   {HERO_SLIDES[activeSlide].line1}
                 </span>
-              </div>
+              </span>
 
               {/* Line 2 */}
-              <div className="overflow-hidden py-1">
+              <span className="block overflow-hidden py-1">
                 <span className="inline-block italic font-light text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-100">
                   {HERO_SLIDES[activeSlide].line2}
                 </span>
-              </div>
+              </span>
 
               {/* Line 3 */}
-              <div className="overflow-hidden py-1">
+              <span className="block overflow-hidden py-1">
                 <span className="inline-block">
                   {HERO_SLIDES[activeSlide].line3}
                 </span>
-              </div>
+              </span>
             </h1>
 
             {/* Dynamic Quote & Style Badge */}

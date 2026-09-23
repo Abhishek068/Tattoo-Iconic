@@ -8,7 +8,6 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { portfolioService } from "@/services/portfolioService";
 import { inspirationService } from "@/services/inspirationService";
-import { InstagramLiveWall } from "@/components/portfolio/InstagramLiveWall";
 import { MoodboardDrawer } from "@/components/portfolio/MoodboardDrawer";
 import type { PortfolioItem, MoodboardItem } from "@/types";
 import {
@@ -50,7 +49,7 @@ const PLACEMENTS = [
 ];
 
 export function PortfolioClient() {
-  const [activeTab, setActiveTab] = useState<"masterpieces" | "instagram" | "moodboard">("masterpieces");
+  const [activeTab, setActiveTab] = useState<"masterpieces" | "moodboard">("masterpieces");
   const [masterpieces, setMasterpieces] = useState<PortfolioItem[]>([]);
   const [activeLightboxPiece, setActiveLightboxPiece] = useState<PortfolioItem | null>(null);
 
@@ -114,14 +113,14 @@ export function PortfolioClient() {
     <>
       <Navbar />
 
-      <main className="container-hero py-10 sm:py-16 min-h-screen">
+      <main className="container-hero pt-28 sm:pt-36 pb-16 sm:pb-20 min-h-screen">
         {/* ── Page Header ── */}
         <div className="max-w-3xl">
           <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl text-white font-bold leading-tight">
             Tattoo Portfolio &amp; Masterpieces
           </h1>
           <p className="text-sm sm:text-base text-ink-300 mt-2.5 leading-relaxed">
-            Explore Jainik Patel&apos;s authentic tattoo masterworks and live Instagram feed (@tatoo.iconic), filter by style and placement, or book your dream tattoo on WhatsApp.
+            Explore Jainik Patel&apos;s authentic bespoke tattoo masterworks, filter by style and placement, or book your custom consultation on WhatsApp.
           </p>
         </div>
 
@@ -129,11 +128,10 @@ export function PortfolioClient() {
         <div className="mt-8 flex flex-wrap gap-2 sm:gap-3 border-b border-white/10 pb-4">
           <button
             onClick={() => setActiveTab("masterpieces")}
-            className={`rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
-              activeTab === "masterpieces"
+            className={`rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${activeTab === "masterpieces"
                 ? "bg-brand text-white shadow-lg shadow-brand/25 scale-[1.02]"
                 : "border border-white/10 bg-white/5 text-ink-300 hover:border-white/20 hover:text-white"
-            }`}
+              }`}
           >
             <Sparkles size={15} />
             <span>👑 Jainik&apos;s Masterpieces</span>
@@ -142,30 +140,13 @@ export function PortfolioClient() {
             </span>
           </button>
 
-          <button
-            onClick={() => setActiveTab("instagram")}
-            className={`rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
-              activeTab === "instagram"
-                ? "bg-gradient-to-r from-rose-500 via-fuchsia-600 to-amber-500 text-white shadow-lg shadow-fuchsia-500/20 scale-[1.02]"
-                : "border border-white/10 bg-white/5 text-ink-300 hover:border-white/20 hover:text-white"
-            }`}
-          >
-            <Instagram size={15} />
-            <span>📸 Instagram Live Wall (@tatoo.iconic)</span>
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-            </span>
-          </button>
-
           {moodboardItems.length > 0 && (
             <button
               onClick={() => setActiveTab("moodboard")}
-              className={`rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
-                activeTab === "moodboard"
+              className={`rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${activeTab === "moodboard"
                   ? "bg-red-500 text-white shadow-lg shadow-red-500/20 scale-[1.02]"
                   : "border border-red-500/30 bg-red-500/10 text-red-300 hover:bg-red-500/20"
-              }`}
+                }`}
             >
               <Heart size={15} className="fill-red-400 text-red-400" />
               <span>💖 My Moodboard ({moodboardItems.length})</span>
@@ -174,7 +155,7 @@ export function PortfolioClient() {
         </div>
 
         {/* ── Search & Filter Bar ── */}
-        {activeTab !== "instagram" && activeTab !== "moodboard" && (
+        {activeTab !== "moodboard" && (
           <div className="mt-6 space-y-4">
             <div className="flex flex-col sm:flex-row gap-3">
               <div className="relative flex-1 max-w-md">
@@ -210,11 +191,10 @@ export function PortfolioClient() {
                 <button
                   key={s}
                   onClick={() => setSelectedStyle(s)}
-                  className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold tracking-wide transition-all cursor-pointer ${
-                    selectedStyle === s
+                  className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold tracking-wide transition-all cursor-pointer ${selectedStyle === s
                       ? "bg-amber-500 text-ink-950 font-bold shadow-md shadow-amber-500/20 scale-105"
                       : "border border-white/10 bg-white/5 text-ink-300 hover:border-white/20 hover:text-white"
-                  }`}
+                    }`}
                 >
                   {s}
                 </button>
@@ -227,11 +207,10 @@ export function PortfolioClient() {
                 <button
                   key={p}
                   onClick={() => setSelectedPlacement(p)}
-                  className={`rounded-lg px-2.5 py-1 text-[11px] font-medium transition-all cursor-pointer ${
-                    selectedPlacement === p
+                  className={`rounded-lg px-2.5 py-1 text-[11px] font-medium transition-all cursor-pointer ${selectedPlacement === p
                       ? "border border-amber-500/50 bg-amber-500/20 text-amber-200"
                       : "border border-white/5 bg-ink-900/60 text-ink-400 hover:text-ink-200"
-                  }`}
+                    }`}
                 >
                   {p}
                 </button>
@@ -290,11 +269,10 @@ export function PortfolioClient() {
                               e.stopPropagation();
                               handleToggleSave(item);
                             }}
-                            className={`h-8 w-8 rounded-full flex items-center justify-center backdrop-blur-md border transition-all pointer-events-auto cursor-pointer ${
-                              isSaved
+                            className={`h-8 w-8 rounded-full flex items-center justify-center backdrop-blur-md border transition-all pointer-events-auto cursor-pointer ${isSaved
                                 ? "bg-red-500 border-red-400 text-white"
                                 : "bg-ink-950/80 border-white/20 text-white hover:bg-red-500"
-                            }`}
+                              }`}
                           >
                             <Heart size={14} className={isSaved ? "fill-white" : ""} />
                           </button>
@@ -324,16 +302,7 @@ export function PortfolioClient() {
         )}
 
         {/* ═════════════════════════════════════════════════════════════ */}
-        {/* VIEW 3: Instagram Live Stream Wall */}
-        {/* ═════════════════════════════════════════════════════════════ */}
-        {activeTab === "instagram" && (
-          <div className="mt-8">
-            <InstagramLiveWall />
-          </div>
-        )}
-
-        {/* ═════════════════════════════════════════════════════════════ */}
-        {/* VIEW 4: My Moodboard Collection */}
+        {/* VIEW 2: My Moodboard Collection */}
         {/* ═════════════════════════════════════════════════════════════ */}
         {activeTab === "moodboard" && (
           <div className="mt-8 space-y-6">
@@ -358,9 +327,8 @@ export function PortfolioClient() {
                   href={`https://wa.me/${ARTIST_PROFILE.whatsapp_number.replace(
                     /[^0-9]/g,
                     ""
-                  )}?text=Hello%20Jainik%20bhai,%20I%20have%20saved%20${
-                    moodboardItems.length
-                  }%20tattoo%20references%20on%20your%20website%20moodboard%20and%20want%20to%20inquire!`}
+                  )}?text=Hello%20Jainik%20bhai,%20I%20have%20saved%20${moodboardItems.length
+                    }%20tattoo%20references%20on%20your%20website%20moodboard%20and%20want%20to%20inquire!`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-2.5 px-4 flex items-center gap-2 shadow-lg shadow-emerald-600/30"
@@ -480,11 +448,10 @@ export function PortfolioClient() {
                   <div className="mt-6 pt-4 border-t border-white/10 space-y-2.5">
                     <button
                       onClick={() => handleToggleSave(activeLightboxPiece)}
-                      className={`w-full rounded-xl py-3 text-xs font-bold flex items-center justify-center gap-2 ${
-                        savedIds.has(activeLightboxPiece.id)
+                      className={`w-full rounded-xl py-3 text-xs font-bold flex items-center justify-center gap-2 ${savedIds.has(activeLightboxPiece.id)
                           ? "bg-red-500/20 text-red-300 border border-red-500/40"
                           : "bg-white/10 hover:bg-white/15 text-white"
-                      }`}
+                        }`}
                     >
                       <Heart
                         size={15}

@@ -43,14 +43,24 @@ export interface ArtistProfile {
   };
 }
 
-// ── Portfolio & Video Reels ──
+export interface ArtistSession {
+  role: "artist";
+  iat: number;
+  exp: number;
+  jti: string;
+}
+
+// ── Portfolio & Tattoos ──
 export type TattooStyle =
   | "All"
+  | "Spiritual"
   | "Fine Line"
   | "Blackwork"
   | "Realism"
   | "Minimalist"
   | "Traditional"
+  | "Geometric"
+  | "Script"
   | "Custom";
 
 export interface PortfolioItem {
@@ -73,6 +83,8 @@ export interface PortfolioItem {
   created_at: string;
   client_story?: string;
 }
+
+export type Tattoo = PortfolioItem;
 
 export interface VideoReel {
   id: string;
@@ -121,6 +133,8 @@ export interface InstagramPostItem {
   is_reel?: boolean;
 }
 
+export type InstagramPost = InstagramPostItem;
+
 export interface MoodboardItem {
   id: string;
   item_id: string;
@@ -149,7 +163,10 @@ export interface ServiceOffering {
   image: string;
   icon: string;
   features: string[];
+  is_active?: boolean;
 }
+
+export type Service = ServiceOffering;
 
 // ── Bookings & Appointments ──
 export type BookingStatus =
@@ -180,10 +197,13 @@ export interface BookingRequest {
   
   // Step 2: Reference Images
   reference_images: string[];
+  reference_photo?: string;
+  reference_photo_url?: string;
   
   // Step 3 & 4: Service Mode & Location
   service_type: ServiceType;
   address?: string;
+  visitor_city?: string;
   home_address?: {
     street: string;
     city: string;
@@ -208,7 +228,7 @@ export interface BookingRequest {
   created_at: string;
   updated_at?: string;
 
-  // Compatibility fields for dashboard
+  // Compatibility fields
   client_name?: string;
   client_email?: string;
   artist_name?: string;
@@ -223,12 +243,16 @@ export interface BookingRequest {
   client?: { id: string; name: string; email: string };
 }
 
+export type Booking = BookingRequest;
+
 export interface AvailabilitySlot {
   date: string;
   available_slots: string[];
   is_blocked: boolean;
   blocked_reason?: string;
 }
+
+export type Availability = AvailabilitySlot;
 
 // ── Reviews ──
 export interface ReviewItem {
@@ -247,7 +271,10 @@ export interface ReviewItem {
   photos?: string[];
   created_at: string;
   is_verified: boolean;
+  is_hidden?: boolean;
 }
+
+export type Review = ReviewItem;
 
 // ── Calendar Event ──
 export interface CalendarEvent {
@@ -278,6 +305,43 @@ export interface CustomerRecord {
   status: "active" | "vip" | "new";
 }
 
+export type Customer = CustomerRecord;
+
+// ── Messages & Consultations ──
+export interface ConsultationMessage {
+  id: string;
+  sender: "artist" | "client";
+  text: string;
+  timestamp: string;
+  attachments?: string[];
+}
+
+export interface MessageThread {
+  id: string;
+  customer_name: string;
+  customer_phone: string;
+  customer_email: string;
+  tattoo_concept: string;
+  preferred_style: string;
+  last_message: string;
+  last_updated: string;
+  unread: boolean;
+  messages: ConsultationMessage[];
+}
+
+// ── Dashboard Overview Stats ──
+export interface DashboardStats {
+  total_tattoos: number;
+  upcoming_bookings: number;
+  pending_requests: number;
+  portfolio_items: number;
+  total_reviews: number;
+  average_rating: number;
+  healed_satisfaction_rate: string;
+  estimated_monthly_revenue: number;
+  active_collectors: number;
+}
+
 // ── API & Generic ──
 export interface PaginatedResponse<T> {
   count: number;
@@ -285,10 +349,6 @@ export interface PaginatedResponse<T> {
   previous: string | null;
   results: T[];
 }
-
-// ── Aliases & Backward Compatibility ──
-export type Availability = AvailabilitySlot;
-export type Review = ReviewItem;
 
 export interface Appointment {
   id: string;
@@ -351,4 +411,70 @@ export interface FlashDesign {
   placement_recommendation?: string[];
   created_at: string;
 }
+
+// ── Tattoo Enquiries (Phase 1 Google Sheets + WhatsApp) ──
+export type EnquiryStatus =
+  | "NEW"
+  | "CONTACTED"
+  | "CONSULTATION"
+  | "BOOKED"
+  | "COMPLETED"
+  | "DECLINED"
+  | "CANCELLED";
+
+export type EnquiryColourPreference = "Black & Grey" | "Colour" | "Not Sure";
+export type EnquiryServiceType = "Visit Artist" | "Home Tattoo Service";
+
+export interface TattooEnquiry {
+  client_id: string;
+  submitted_at: string;
+  full_name: string;
+  email: string;
+  phone: string;
+  tattoo_idea: string;
+  tattoo_style: string;
+  placement: string;
+  approx_size: string;
+  color_preference: EnquiryColourPreference;
+  service_type: EnquiryServiceType;
+  preferred_date: string;
+  alternative_date?: string;
+  preferred_time: string;
+  detailed_description?: string;
+  reference_image_url?: string;
+  status: EnquiryStatus;
+  whatsapp_contacted: "YES" | "NO";
+  artist_notes?: string;
+}
+
+export interface EnquiryFormData {
+  full_name: string;
+  email: string;
+  phone: string;
+  tattoo_idea: string;
+  tattoo_style?: string;
+  placement?: string;
+  approx_size?: string;
+  color_preference?: EnquiryColourPreference;
+  service_type?: EnquiryServiceType;
+  preferred_date?: string;
+  alternative_date?: string;
+  preferred_time?: string;
+  detailed_description?: string;
+  reference_image_url?: string;
+  reference_images?: string[];
+  city?: string;
+  address?: string;
+}
+
+export interface EnquirySubmissionResult {
+  success: boolean;
+  client_id: string;
+  whatsapp_url: string;
+  stored_in_sheet: boolean;
+  message?: string;
+  error?: string;
+  enquiry?: TattooEnquiry;
+}
+
 

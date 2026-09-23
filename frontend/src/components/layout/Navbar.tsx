@@ -15,6 +15,8 @@ import {
 import { cn } from "@/lib/utils";
 import { ARTIST_PROFILE } from "@/constants";
 import { MagneticElement, RollingText } from "@/components/ui/LusionEffects";
+import { WhatsAppButton, WhatsAppIcon } from "@/components/ui";
+import { createWhatsAppUrl } from "@/lib/whatsapp";
 
 const smoothEase = [0.22, 1, 0.36, 1];
 
@@ -104,26 +106,8 @@ export function Navbar() {
         </nav>
       </header>
 
-      {/* Floating Bottom-Right Sticky Action (Tattoo Zone Style with Magnetic Pull) */}
-      <MagneticElement strength={0.3} className="hidden md:block fixed bottom-8 right-8 z-40">
-        <a
-          href="tel:+919724171758"
-          className="flex items-center gap-2.5 bg-[#C5A059] text-[#0A0A0A] px-6 py-3.5 font-bold text-xs tracking-[0.18em] uppercase hover:bg-[#d8b467] transition-all duration-300 shadow-2xl shadow-black/80 hover:scale-105 active:scale-95 group"
-        >
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            className="shrink-0 group-hover:rotate-12 transition-transform duration-300"
-          >
-            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-          </svg>
-          <RollingText text="Book Now" />
-        </a>
-      </MagneticElement>
+      {/* ── Floating Bottom-Right Sticky WhatsApp Action ── */}
+      <WhatsAppButton variant="floating" label="CHAT ON WHATSAPP" />
 
       {/* ═══════════════════════════════════════════════════════════════ */}
       {/* 3. FULL-SCREEN / SLIDE-OVER LUXURY DARK MENU DRAWER            */}
@@ -228,12 +212,13 @@ export function Navbar() {
                   </Link>
 
                   <a
-                    href={`https://wa.me/${ARTIST_PROFILE.whatsapp_number.replace(/[^0-9]/g, "")}`}
+                    href={createWhatsAppUrl({ context: "home" })}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn-secondary py-3 text-xs sm:text-sm font-semibold text-center flex items-center justify-center gap-1.5 text-emerald-400"
+                    aria-label="Chat with Jainik Patel on WhatsApp"
+                    className="btn-secondary py-3 text-xs sm:text-sm font-semibold text-center flex items-center justify-center gap-1.5 text-amber-300 hover:text-white"
                   >
-                    <MessageCircle size={15} />
+                    <WhatsAppIcon size={15} />
                     <span>WhatsApp</span>
                   </a>
                 </div>

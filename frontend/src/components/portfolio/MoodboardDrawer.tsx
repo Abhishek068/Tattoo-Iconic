@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -25,8 +25,13 @@ interface Props {
 
 export function MoodboardDrawer({ items, onRemove, onClear }: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  if (items.length === 0) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || items.length === 0) return null;
 
   const handleWhatsAppConsult = () => {
     const listText = items

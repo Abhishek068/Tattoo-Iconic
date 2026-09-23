@@ -1,8 +1,15 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Outfit, Plus_Jakarta_Sans, Cinzel } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import { Providers } from "./providers";
 import "@/styles/globals.css";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#090a0d",
+};
 
 const fontDisplay = Outfit({
   subsets: ["latin"],
@@ -62,7 +69,7 @@ const jsonLd = {
   logo: "https://tattooiconic.in/images/tattoo-iconic-logo.png",
   image: "https://tattooiconic.in/images/hero/slide-1-lion-crown.jpg",
   telephone: "+918238767100",
-  email: "jainikpatel.tattoo@gmail.com",
+  email: "Jainik.patel.33@gmail.com",
   priceRange: "₹₹",
   currenciesAccepted: "INR",
   paymentAccepted: "Cash, UPI, Credit Card, Bank Transfer",
@@ -135,14 +142,14 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${fontDisplay.variable} ${fontBody.variable} ${fontSerif.variable} dark`}>
+    <html lang="en" suppressHydrationWarning className={`${fontDisplay.variable} ${fontBody.variable} ${fontSerif.variable} dark`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-screen bg-ink-950 text-ink-100 antialiased selection:bg-brand selection:text-white">
+      <body suppressHydrationWarning className="min-h-screen bg-ink-950 text-ink-100 antialiased selection:bg-brand selection:text-white">
         <Providers>
           {children}
           <Toaster

@@ -1,46 +1,64 @@
-import axios, { type InternalAxiosRequestConfig } from "axios";
+/**
+ * Frontend API Utility Module
+ * Prepared for future Django REST API integration.
+ */
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
+export const API_URL = process.env.NEXT_PUBLIC_API_URL || "/api";
 
-const api = axios.create({ baseURL: API_URL, headers: { "Content-Type": "application/json" }, timeout: 15000 });
-
-api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  if (typeof window !== "undefined") {
-    const token = localStorage.getItem("access_token");
-    if (token && config.headers) config.headers.Authorization = `Bearer ${token}`;
+export const fetcher = async <T>(url: string): Promise<T> => {
+  const res = await fetch(url.startsWith("http") || url.startsWith("/") ? url : `/api${url}`);
+  if (!res.ok) {
+    throw new Error(`API error: ${res.statusText}`);
   }
-  return config;
-});
+  return res.json();
+};
 
-api.interceptors.response.use(
-  (res) => res,
-  async (error) => {
-    const orig = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
-    if (error.response?.status === 401 && !orig._retry && typeof window !== "undefined") {
-      orig._retry = true;
-      try {
-        const refresh = localStorage.getItem("refresh_token");
-        if (!refresh) throw new Error("No refresh token");
-        const { data } = await axios.post(`${API_URL}/auth/refresh/`, { refresh });
-        localStorage.setItem("access_token", data.access);
-        if (data.refresh) localStorage.setItem("refresh_token", data.refresh);
-        if (orig.headers) orig.headers.Authorization = `Bearer ${data.access}`;
-        return api(orig);
-      } catch {
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
-        window.location.href = "/login";
-      }
-    }
-    return Promise.reject(error);
+export const postData = async <T>(url: string, data?: unknown): Promise<T> => {
+  const res = await fetch(url.startsWith("http") || url.startsWith("/") ? url : `/api${url}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: data ? JSON.stringify(data) : undefined,
+  });
+  if (!res.ok) {
+    throw new Error(`API error: ${res.statusText}`);
   }
-);
+  return res.json();
+};
 
-export default api;
+export const patchData = async <T>(url: string, data: unknown): Promise<T> => {
+  const res = await fetch(url.startsWith("http") || url.startsWith("/") ? url : `/api${url}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    throw new Error(`API error: ${res.statusText}`);
+  }
+  return res.json();
+};
 
-export const fetcher = <T>(url: string) => api.get<T>(url).then((r) => r.data);
-export const postData = <T>(url: string, data?: unknown) => api.post<T>(url, data).then((r) => r.data);
-export const patchData = <T>(url: string, data: unknown) => api.patch<T>(url, data).then((r) => r.data);
-export const deleteData = (url: string) => api.delete(url);
-export const uploadFile = <T>(url: string, form: FormData) =>
-  api.post<T>(url, form, { headers: { "Content-Type": "multipart/form-data" } }).then((r) => r.data);
+export const deleteData = async (url: string): Promise<boolean> => {
+  const res = await fetch(url.startsWith("http") || url.startsWith("/") ? url : `/api${url}`, {
+    method: "DELETE",
+  });
+  return res.ok;
+};
+
+export const uploadFile = async <T>(url: string, form: FormData): Promise<T> => {
+  const res = await fetch(url.startsWith("http") || url.startsWith("/") ? url : `/api${url}`, {
+    method: "POST",
+    body: form,
+  });
+  if (!res.ok) {
+    throw new Error(`Upload error: ${res.statusText}`);
+  }
+  return res.json();
+};
+
+export default {
+  fetcher,
+  postData,
+  patchData,
+  deleteData,
+  uploadFile,
+};

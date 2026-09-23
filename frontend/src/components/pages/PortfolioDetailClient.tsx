@@ -18,17 +18,23 @@ import {
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { portfolioService } from "@/services/portfolioService";
+import { WhatsAppButton } from "@/components/ui";
 import type { PortfolioItem } from "@/types";
 import { capitalize } from "@/lib/utils";
 
 export function PortfolioDetailClient() {
-  const { id } = useParams<{ id: string }>();
+  const params = useParams();
+  const id = typeof params?.id === "string" ? params.id : Array.isArray(params?.id) ? params.id[0] : "";
   const [item, setItem] = useState<PortfolioItem | null>(null);
   const [related, setRelated] = useState<PortfolioItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function load() {
+      if (!id) {
+        setLoading(false);
+        return;
+      }
       setLoading(true);
       const piece = await portfolioService.getPortfolioItem(id);
       setItem(piece);
@@ -45,7 +51,7 @@ export function PortfolioDetailClient() {
     return (
       <>
         <Navbar />
-        <div className="container-page py-24 text-center">
+        <div className="container-page pt-32 sm:pt-40 pb-24 text-center">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-white/20 border-t-brand mx-auto" />
         </div>
         <Footer />
@@ -57,7 +63,7 @@ export function PortfolioDetailClient() {
     return (
       <>
         <Navbar />
-        <div className="container-page py-24 text-center">
+        <div className="container-page pt-32 sm:pt-40 pb-24 text-center">
           <h1 className="font-display text-3xl text-white">Piece Not Found</h1>
           <p className="text-sm text-ink-400 mt-2">The requested artwork could not be located.</p>
           <Link href="/portfolio" className="btn-primary mt-6 text-sm">
@@ -73,7 +79,7 @@ export function PortfolioDetailClient() {
     <>
       <Navbar />
 
-      <main className="container-page py-12 sm:py-16">
+      <main className="container-page pt-28 sm:pt-36 pb-20">
         <Link
           href="/portfolio"
           className="btn-ghost text-xs sm:text-sm mb-6 inline-flex items-center gap-1.5"
@@ -96,7 +102,7 @@ export function PortfolioDetailClient() {
               />
             </div>
 
-            {item.healed_image && (
+            {item.healed_image && item.healed_image !== item.image && (
               <div className="relative aspect-square overflow-hidden rounded-3xl border border-white/15 bg-ink-900">
                 <Image
                   src={item.healed_image}
@@ -186,16 +192,24 @@ export function PortfolioDetailClient() {
                 href={`/booking?style=${encodeURIComponent(
                   item.primary_style
                 )}&placement=${encodeURIComponent(item.placement)}`}
-                className="btn-primary w-full text-center py-3.5 text-sm font-semibold"
+                className="btn-primary w-full text-center py-3.5 text-sm font-semibold flex items-center justify-center gap-2"
               >
-                <Calendar size={16} className="mr-2" />
-                <span>Interested in Something Similar? Book a Consultation</span>
+                <Calendar size={16} />
+                <span>Book a Consultation for This Style</span>
               </Link>
+
+              <WhatsAppButton
+                variant="secondary"
+                label="CHAT ABOUT THIS PIECE"
+                tattooName={item.title}
+                className="w-full justify-center rounded-xl py-3 text-xs text-amber-300 hover:text-white"
+              />
+
               <Link
                 href="/portfolio"
-                className="btn-secondary w-full text-center py-3 text-xs sm:text-sm"
+                className="btn-ghost w-full text-center py-2.5 text-xs text-ink-400 hover:text-white block"
               >
-                Browse Other Styles
+                ← Browse Other Styles
               </Link>
             </div>
           </div>
