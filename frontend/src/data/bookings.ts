@@ -89,7 +89,7 @@ export const INITIAL_BOOKINGS: BookingRequest[] = [
     approx_size: "Small (under 3 inches)",
     color_preference: "Single Needle",
     tattoo_description: "Micro single-needle feather dissolving into tiny flying birds.",
-    reference_images: ["/images/tattoos/feather-infinity-tattoo.jpg"],
+    reference_images: ["/images/tattoos/ig-aj-peacock-feather.jpg"],
     status: "pending",
     estimated_price: 3500,
     deposit_amount: 1000,

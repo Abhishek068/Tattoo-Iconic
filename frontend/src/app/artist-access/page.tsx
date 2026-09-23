@@ -73,7 +73,7 @@ export default function ArtistAccessPage() {
 
         <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[11px] text-[#a3a4b2]">
           <Lock size={12} className="text-amber-400" />
-          <span className="font-mono">Encrypted Atelier Console</span>
+          <span className="font-mono">Authenticated Atelier Console</span>
         </div>
       </header>
 
@@ -200,7 +200,7 @@ export default function ArtistAccessPage() {
             <div className="pt-2 border-t border-white/5 text-center">
               <p className="text-[11px] text-[#747688] flex items-center justify-center gap-1.5 font-medium">
                 <ShieldCheck size={13} className="text-emerald-400" />
-                <span>Private Single-Key Encrypted Atelier Entry</span>
+                <span>Private Single-Key Authenticated Atelier Entry</span>
               </p>
             </div>
           </div>

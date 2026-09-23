@@ -67,7 +67,7 @@ export const INITIAL_REVIEWS: ReviewItem[] = [
     style: "Minimalist",
     healed_time: "Healed 1 month",
     comment: "So gentle and painless! The single-needle details look like pencil sketching on silk. Jainik's aftercare guidance made healing so simple.",
-    healed_photo: "/images/tattoos/feather-infinity-tattoo.jpg",
+    healed_photo: "/images/tattoos/ig-aj-peacock-feather.jpg",
     created_at: "2026-08-30",
     is_verified: true,
   },

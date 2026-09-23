@@ -10,7 +10,7 @@ An ultra-luxury editorial web application, booking management system, and portfo
 - **Styling**: Tailwind CSS, Vanilla CSS animations, Glassmorphism
 - **Interactivity & 3D**: Framer Motion, Lusion-style magnetic elements, kinetic typography
 - **Data Architecture**: Strongly-typed frontend data & service abstraction layer (`/data`, `/services`, `/types`)
-- **Artist Authentication**: Server-side security key validation (`ARTIST_DASHBOARD_SECRET`) via Next.js route handlers and encrypted 8-hour HTTP-only session cookies protected with Next.js Middleware.
+- **Artist Authentication**: Server-side security key validation (`ARTIST_DASHBOARD_SECRET`) via Next.js route handlers with cryptographically signed HMAC-SHA256 session tokens stored in HTTP-only cookies protected with Next.js Middleware.
 - **Future Django Compatibility**: Services are designed with clean asynchronous signatures (`portfolioService.getAll()`, `bookingService.create()`, etc.) ready for future drop-in Django REST API integration without frontend rebuilds.
 
 ---

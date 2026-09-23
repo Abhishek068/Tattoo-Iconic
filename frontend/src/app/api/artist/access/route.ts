@@ -47,6 +47,20 @@ export async function POST(req: Request) {
 
     const expectedSecret = getArtistSecret();
 
+    if (!expectedSecret) {
+      console.error(
+        "[Artist Access Error] ARTIST_DASHBOARD_SECRET is not configured on the production server (fail-closed)."
+      );
+      return NextResponse.json(
+        {
+          success: false,
+          message:
+            "Authentication is unavailable. Studio security key is not configured on the server.",
+        },
+        { status: 503 }
+      );
+    }
+
     if (!enteredKey || enteredKey.length === 0) {
       return NextResponse.json(
         { success: false, message: "Security key is required." },

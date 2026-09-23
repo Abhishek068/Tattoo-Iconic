@@ -3,15 +3,24 @@ import type { ArtistSession } from "@/types";
 export const ARTIST_COOKIE_NAME = "artist_session";
 export const SESSION_MAX_AGE_SECONDS = 8 * 60 * 60; // 8 hours
 
-export function getArtistSecret(): string {
+export function getArtistSecret(): string | null {
   const secret = process.env.ARTIST_DASHBOARD_SECRET;
-  if (!secret) {
-    if (process.env.NODE_ENV === "production") {
-      console.warn("WARNING: ARTIST_DASHBOARD_SECRET is not set in production!");
-    }
-    return "tattoo-iconic-artist-key-2026";
+  if (secret && secret.trim().length > 0) {
+    return secret.trim();
   }
-  return secret;
+
+  // FAIL CLOSED IN PRODUCTION:
+  // If the secret is missing in production, NEVER fall back to a known default.
+  // Deny all authentication attempts immediately.
+  if (process.env.NODE_ENV === "production") {
+    console.error(
+      "[CRITICAL SECURITY] ARTIST_DASHBOARD_SECRET is not configured in production environment! Authentication is disabled (fail-closed)."
+    );
+    return null;
+  }
+
+  // Local development fallback key for DX when .env.local is not present
+  return "tattoo-iconic-artist-key-2026";
 }
 
 // ── Base64 URL Helpers (Universal Browser/Edge/Node) ──
@@ -68,6 +77,12 @@ async function getHmacKey(secret: string): Promise<CryptoKey> {
  */
 export async function createSessionToken(secret?: string): Promise<string> {
   const secretKey = secret || getArtistSecret();
+  if (!secretKey) {
+    throw new Error(
+      "Cannot generate session token: ARTIST_DASHBOARD_SECRET is not configured in production (fail-closed)."
+    );
+  }
+
   const now = Math.floor(Date.now() / 1000);
   const exp = now + SESSION_MAX_AGE_SECONDS;
   const jti = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2);
@@ -94,7 +109,7 @@ export async function createSessionToken(secret?: string): Promise<string> {
 }
 
 /**
- * Verify a signed session token. Returns null if invalid or expired.
+ * Verify a signed session token. Returns null if invalid, expired, or missing secret.
  */
 export async function verifySessionToken(
   token: string | undefined | null,
@@ -102,13 +117,18 @@ export async function verifySessionToken(
 ): Promise<ArtistSession | null> {
   if (!token || typeof token !== "string") return null;
 
+  const secretKey = secret || getArtistSecret();
+  if (!secretKey) {
+    // Fail-closed: Cannot verify token authenticity without configured secret
+    return null;
+  }
+
   const parts = token.split(".");
   if (parts.length !== 2) return null;
 
   const [encodedPayload, encodedSignature] = parts;
 
   try {
-    const secretKey = secret || getArtistSecret();
     const key = await getHmacKey(secretKey);
 
     // Convert signature back to Uint8Array for verification

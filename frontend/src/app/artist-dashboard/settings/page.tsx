@@ -147,7 +147,7 @@ export default function ArtistSettingsPage() {
             </div>
             <div className="flex items-center justify-between">
               <span>Session Expiration Duration:</span>
-              <strong className="text-white">8 Hours (HMAC-SHA256 Encrypted Token)</strong>
+              <strong className="text-white">8 Hours (HMAC-SHA256 Signed Token)</strong>
             </div>
             <div className="flex items-center justify-between">
               <span>Cookie Policy:</span>
