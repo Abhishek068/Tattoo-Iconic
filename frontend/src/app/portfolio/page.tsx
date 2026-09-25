@@ -18,6 +18,13 @@ export const metadata: Metadata = {
   },
 };
 
+import { Suspense } from "react";
+import { Spinner } from "@/components/ui";
+
 export default function PortfolioPage() {
-  return <PortfolioClient />;
+  return (
+    <Suspense fallback={<Spinner className="min-h-screen bg-[#0A0B0E]" />}>
+      <PortfolioClient />
+    </Suspense>
+  );
 }

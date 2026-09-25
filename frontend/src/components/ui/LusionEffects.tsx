@@ -103,11 +103,13 @@ export function LusionSpotlightCard({
   className = "",
   onClick,
   tiltStrength = 8,
+  spotlightColor = "rgba(212, 175, 55, 0.22)",
 }: {
   children: React.ReactNode;
   className?: string;
   onClick?: () => void;
   tiltStrength?: number;
+  spotlightColor?: string;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [spotlightPos, setSpotlightPos] = useState({ x: 50, y: 50, opacity: 0 });
@@ -170,7 +172,7 @@ export function LusionSpotlightCard({
         className="absolute inset-0 pointer-events-none z-20 transition-opacity duration-500"
         style={{
           opacity: spotlightPos.opacity,
-          background: `radial-gradient(circle 280px at ${spotlightPos.x}% ${spotlightPos.y}%, rgba(212, 175, 55, 0.22), rgba(255, 255, 255, 0.08) 30%, transparent 70%)`,
+          background: `radial-gradient(circle 280px at ${spotlightPos.x}% ${spotlightPos.y}%, ${spotlightColor}, rgba(255, 255, 255, 0.08) 30%, transparent 70%)`,
         }}
       />
       {children}

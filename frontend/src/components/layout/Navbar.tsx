@@ -23,8 +23,8 @@ const smoothEase = [0.22, 1, 0.36, 1];
 const NAV_ITEMS = [
   { href: "/", label: "Home" },
   { href: "/portfolio", label: "Work" },
+  { href: "/styles", label: "Styles" },
   { href: "/about", label: "About" },
-  { href: "/#styles", label: "Styles" },
   { href: "/booking", label: "Booking" },
   { href: "/contact", label: "Contact" },
 ];

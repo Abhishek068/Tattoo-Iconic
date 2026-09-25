@@ -22,15 +22,21 @@ import { ARTIST_PROFILE } from "@/constants";
 import toast from "react-hot-toast";
 import { LusionSpotlightCard } from "@/components/ui/LusionEffects";
 
+import { useSearchParams } from "next/navigation";
+
 const STYLES = [
   "All",
   "Spiritual",
   "Fine Line",
   "Realism",
+  "Micro-Realism",
+  "Mandala & Dotwork",
+  "Japanese",
   "Minimalist",
-  "Geometric",
-  "Script",
   "Traditional",
+  "Script",
+  "Anime & Manga",
+  "Watercolor",
   "Cover-up",
   "Custom",
 ];
@@ -49,6 +55,9 @@ const PLACEMENTS = [
 ];
 
 export function PortfolioClient() {
+  const searchParams = useSearchParams();
+  const initialStyle = searchParams?.get("style") || "All";
+
   const [activeTab, setActiveTab] = useState<"masterpieces" | "moodboard">("masterpieces");
   const [masterpieces, setMasterpieces] = useState<PortfolioItem[]>([]);
   const [activeLightboxPiece, setActiveLightboxPiece] = useState<PortfolioItem | null>(null);
@@ -56,7 +65,9 @@ export function PortfolioClient() {
   const [moodboardItems, setMoodboardItems] = useState<MoodboardItem[]>([]);
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
 
-  const [selectedStyle, setSelectedStyle] = useState("All");
+  const [selectedStyle, setSelectedStyle] = useState(
+    STYLES.find((s) => s.toLowerCase() === initialStyle.toLowerCase()) || (initialStyle !== "All" ? initialStyle : "All")
+  );
   const [selectedPlacement, setSelectedPlacement] = useState("All");
   const [search, setSearch] = useState("");
 

@@ -57,11 +57,37 @@ export type TattooStyle =
   | "Fine Line"
   | "Blackwork"
   | "Realism"
+  | "Micro-Realism"
+  | "Geometric"
+  | "Mandala & Dotwork"
+  | "Japanese"
   | "Minimalist"
   | "Traditional"
-  | "Geometric"
   | "Script"
+  | "Anime & Manga"
+  | "Watercolor"
+  | "Cover-up"
   | "Custom";
+
+export interface TattooStyleCatalogItem {
+  id: string;
+  name: string;
+  tagline: string;
+  category: "Spiritual & Cultural" | "Precision & Micro" | "Realism & Blackwork" | "Contemporary & Illustrative";
+  short_desc: string;
+  full_desc: string;
+  image: string;
+  key_elements: string[];
+  needle_specs: string;
+  pain_level: "Low (2/5)" | "Low to Medium (2.5/5)" | "Medium (3/5)" | "Medium to High (3.5/5)" | "High (4/5)";
+  healing_time: string;
+  popular_placements: string;
+  ideal_for: string;
+  color_type: "Black & Grey" | "Color" | "Single Needle" | "Mixed / Multi-Tone";
+  starting_price?: number;
+  portfolio_style: TattooStyle;
+  booking_style: string;
+}
 
 export interface PortfolioItem {
   id: string;

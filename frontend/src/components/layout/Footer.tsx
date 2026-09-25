@@ -19,6 +19,7 @@ const FOOTER_SECTIONS = [
     title: "Explore",
     links: [
       { href: "/portfolio", label: "Tattoo Portfolio" },
+      { href: "/styles", label: "Tattoo Styles Guide" },
       { href: "/services", label: "Services & Rates" },
       { href: "/about", label: "About Jainik Patel" },
       { href: "/reviews", label: "Client Reviews" },
