@@ -19,7 +19,6 @@ import {
   Image as ImageIcon,
   MessageCircle,
   ShieldCheck,
-  Palette,
   AlertCircle,
   ArrowRight,
   RotateCcw,
@@ -28,7 +27,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { ARTIST_PROFILE, SIZES, TATTOO_STYLES } from "@/constants";
+import { ARTIST_PROFILE } from "@/constants";
 import { enquiryService } from "@/services/enquiry.service";
 import { cn, getMinBookingDate } from "@/lib/utils";
 import type { EnquirySubmissionResult, EnquiryColourPreference, EnquiryServiceType } from "@/types";
@@ -39,11 +38,11 @@ const enquirySchema = z.object({
   full_name: z.string().min(2, "Please enter your full name (minimum 2 characters)"),
   email: z.string().email("Please enter a valid email address"),
   phone: z.string().min(7, "Please enter your valid phone / WhatsApp number"),
-  tattoo_idea: z.string().min(3, "Please describe your tattoo idea or motif"),
-  tattoo_style: z.string().default("Spiritual"),
-  placement: z.string().min(1, "Please enter body placement (e.g. Forearm, Wrist, Chest)"),
-  approx_size: z.string().default("Medium (4–6 inches)"),
-  color_preference: z.enum(["Black & Grey", "Colour", "Not Sure"]).default("Black & Grey"),
+  tattoo_idea: z.string().optional().default("Bespoke Tattoo Consultation"),
+  tattoo_style: z.string().optional().default("Custom"),
+  placement: z.string().optional().default("To be discussed"),
+  approx_size: z.string().optional().default("Medium"),
+  color_preference: z.enum(["Black & Grey", "Colour", "Not Sure"]).optional().default("Black & Grey"),
   service_type: z.enum(["Visit Artist", "Home Tattoo Service"]).default("Visit Artist"),
   city_or_address: z.string().optional(),
   preferred_date: z.string().min(1, "Please select your preferred date"),
@@ -96,7 +95,6 @@ function EnquiryFormInner() {
   });
 
   const selectedServiceType = watch("service_type");
-  const selectedColour = watch("color_preference");
 
   // Handle image upload from user device / screenshot
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -402,96 +400,12 @@ function EnquiryFormInner() {
         </div>
 
         {/* ========================================================================= */}
-        {/* SECTION 2: TATTOO INFORMATION */}
-        {/* ========================================================================= */}
-        <div className="glass-card p-6 sm:p-8 border-white/15 space-y-5">
-          <h3 className="text-white font-bold text-base flex items-center gap-2">
-            <Sparkles size={16} className="text-amber-400" />
-            <span>2. Tattoo Information</span>
-          </h3>
-
-          <div>
-            <label className="label">Tattoo Idea &amp; Concept *</label>
-            <textarea
-              {...register("tattoo_idea")}
-              rows={3}
-              placeholder="e.g. Lord Shiva Trishul with Sanskrit mantra, Lord Hanuman portrait, Lion sleeve, Fine-line botanical branch..."
-              className="input-field"
-            />
-            {errors.tattoo_idea && (
-              <p className="mt-1 text-xs text-red-400">{errors.tattoo_idea.message}</p>
-            )}
-          </div>
-
-          <div className="grid sm:grid-cols-3 gap-4">
-            <div>
-              <label className="label">Tattoo Style</label>
-              <select {...register("tattoo_style")} className="input-field">
-                {TATTOO_STYLES.map((s) => (
-                  <option key={s} value={s} className="bg-ink-900 text-white">
-                    {s}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="label">Placement *</label>
-              <input
-                {...register("placement")}
-                placeholder="e.g. Forearm, Wrist, Chest, Spine"
-                className="input-field"
-              />
-              {errors.placement && (
-                <p className="mt-1 text-xs text-red-400">{errors.placement.message}</p>
-              )}
-            </div>
-
-            <div>
-              <label className="label">Approximate Size</label>
-              <select {...register("approx_size")} className="input-field">
-                {SIZES.map((sizeOption) => (
-                  <option key={sizeOption.value} value={sizeOption.label} className="bg-ink-900 text-white">
-                    {sizeOption.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          {/* Colour Preference */}
-          <div>
-            <label className="label flex items-center gap-1.5">
-              <Palette size={14} className="text-amber-400" />
-              <span>Colour Preference</span>
-            </label>
-            <div className="grid grid-cols-3 gap-2.5 pt-1">
-              {(["Black & Grey", "Colour", "Not Sure"] as const).map((col) => (
-                <button
-                  type="button"
-                  key={col}
-                  onClick={() => setValue("color_preference", col)}
-                  className={cn(
-                    "rounded-xl border py-2.5 px-3 text-xs font-semibold transition-all cursor-pointer text-center",
-                    selectedColour === col
-                      ? "border-amber-500/80 bg-amber-500/20 text-amber-200 shadow-md shadow-amber-500/10"
-                      : "border-white/10 bg-white/5 text-ink-300 hover:border-white/20 hover:text-white"
-                  )}
-                >
-                  {col}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* ========================================================================= */}
-        {/* SECTION 3: SERVICE TYPE */}
+        {/* SECTION 2: SERVICE TYPE */}
         {/* ========================================================================= */}
         <div className="glass-card p-6 sm:p-8 border-white/15 space-y-5">
           <h3 className="text-white font-bold text-base flex items-center gap-2">
             <MapPin size={16} className="text-amber-400" />
-            <span>3. Service Selection</span>
+            <span>2. Service Selection</span>
           </h3>
 
           <div className="grid sm:grid-cols-2 gap-4">
@@ -557,12 +471,12 @@ function EnquiryFormInner() {
         </div>
 
         {/* ========================================================================= */}
-        {/* SECTION 4: APPOINTMENT SCHEDULE */}
+        {/* SECTION 3: APPOINTMENT SCHEDULE */}
         {/* ========================================================================= */}
         <div className="glass-card p-6 sm:p-8 border-white/15 space-y-5">
           <h3 className="text-white font-bold text-base flex items-center gap-2">
             <CalendarIcon size={16} className="text-amber-400" />
-            <span>4. Appointment Schedule</span>
+            <span>3. Appointment Schedule</span>
           </h3>
 
           <div className="grid sm:grid-cols-3 gap-4">
@@ -604,12 +518,12 @@ function EnquiryFormInner() {
         </div>
 
         {/* ========================================================================= */}
-        {/* SECTION 5: ADDITIONAL INFORMATION & REFERENCES */}
+        {/* SECTION 4: ADDITIONAL INFORMATION & REFERENCES */}
         {/* ========================================================================= */}
         <div className="glass-card p-6 sm:p-8 border-white/15 space-y-5">
           <h3 className="text-white font-bold text-base flex items-center gap-2">
             <ImageIcon size={16} className="text-amber-400" />
-            <span>5. Additional Details &amp; Reference Photos</span>
+            <span>4. Additional Details &amp; Reference Photos</span>
           </h3>
 
           <div>

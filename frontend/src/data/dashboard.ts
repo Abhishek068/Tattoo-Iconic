@@ -4,7 +4,7 @@ export const INITIAL_DASHBOARD_STATS: DashboardStats = {
   total_tattoos: 7420,
   upcoming_bookings: 5,
   pending_requests: 2,
-  portfolio_items: 8,
+  portfolio_items: 222,
   total_reviews: 462,
   average_rating: 5.0,
   healed_satisfaction_rate: "99.9%",
