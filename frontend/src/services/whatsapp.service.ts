@@ -85,10 +85,12 @@ export const whatsappService = {
   /**
    * Generate a direct message URL for the artist to contact a client
    */
-  generateArtistToClientUrl(clientPhone: string, clientId: string, clientName: string): string {
+  generateArtistToClientUrl(clientPhone?: string, clientId?: string, clientName?: string): string {
+    if (!clientPhone) return "";
     const cleanPhone = clientPhone.replace(/[^0-9]/g, "");
+    if (!cleanPhone || cleanPhone.length < 7) return "";
     const message = encodeURIComponent(
-      `Hello ${clientName}, this is Jainik Patel from Tattoo Iconic regarding your enquiry #${clientId}. I reviewed your tattoo concept and would love to assist you!`
+      `Hello ${clientName || "there"}, this is Jainik Patel from Tattoo Iconic regarding your enquiry #${clientId || ""}. I reviewed your tattoo concept and would love to assist you!`
     );
     return `https://wa.me/${cleanPhone}?text=${message}`;
   },

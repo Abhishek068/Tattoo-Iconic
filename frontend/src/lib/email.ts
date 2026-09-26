@@ -60,11 +60,11 @@ export async function sendEnquiryEmailNotification(
             </div>
             <div class="field-group">
               <div class="label">Phone / WhatsApp</div>
-              <div class="value">${enquiry.phone}</div>
+              <div class="value">${enquiry.phone || '<span style="color: #9ca3af;">Not provided</span>'}</div>
             </div>
             <div class="field-group">
               <div class="label">Email Address</div>
-              <div class="value">${enquiry.email}</div>
+              <div class="value">${enquiry.email || '<span style="color: #9ca3af;">Not provided</span>'}</div>
             </div>
             <div class="field-group">
               <div class="label">Service Type &amp; Preferred Date</div>
@@ -78,11 +78,12 @@ export async function sendEnquiryEmailNotification(
                 ${enquiry.detailed_description || enquiry.tattoo_idea}
               </div>
             </div>
+            ${enquiry.phone && enquiry.phone.replace(/[^0-9]/g, "").length >= 7 ? `
             <div style="text-align: center; margin-top: 24px;">
               <a href="https://wa.me/${enquiry.phone.replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(enquiry.full_name)},%20this%20is%20Jainik%20Patel%20regarding%20your%20Tattoo%20Iconic%20enquiry%20[${enquiry.client_id}]" class="button">
                 💬 Reply on WhatsApp
               </a>
-            </div>
+            </div>` : ''}
           </div>
           <div class="footer">
             Tattoo Iconic · Notification delivered directly to ${recipient}

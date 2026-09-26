@@ -284,20 +284,33 @@ export default function EnquiriesDashboardPage() {
 
                     {/* Actions */}
                     <td className="py-4 px-4 text-right space-x-2" onClick={(e) => e.stopPropagation()}>
-                      <a
-                        href={whatsappService.generateArtistToClientUrl(
-                          enquiry.phone,
-                          enquiry.client_id,
-                          enquiry.full_name
-                        )}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 rounded-lg bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/30 px-2.5 py-1.5 text-[11px] font-bold transition-all shadow-sm"
-                        title="Chat with client on WhatsApp"
-                      >
-                        <MessageCircle size={13} />
-                        <span>WhatsApp</span>
-                      </a>
+                      {enquiry.phone ? (
+                        <a
+                          href={whatsappService.generateArtistToClientUrl(
+                            enquiry.phone,
+                            enquiry.client_id,
+                            enquiry.full_name
+                          )}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 rounded-lg bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/30 px-2.5 py-1.5 text-[11px] font-bold transition-all shadow-sm"
+                          title="Chat with client on WhatsApp"
+                        >
+                          <MessageCircle size={13} />
+                          <span>WhatsApp</span>
+                        </a>
+                      ) : enquiry.email ? (
+                        <a
+                          href={`mailto:${enquiry.email}?subject=${encodeURIComponent(`Tattoo Iconic Inquiry #${enquiry.client_id}`)}`}
+                          className="inline-flex items-center gap-1 rounded-lg bg-blue-600/20 hover:bg-blue-600 text-blue-300 hover:text-white border border-blue-500/30 px-2.5 py-1.5 text-[11px] font-bold transition-all shadow-sm"
+                          title="Email client"
+                        >
+                          <Mail size={13} />
+                          <span>Email</span>
+                        </a>
+                      ) : (
+                        <span className="text-[10px] text-ink-500">No Contact</span>
+                      )}
                     </td>
                   </tr>
                 ))}
@@ -344,8 +357,8 @@ export default function EnquiriesDashboardPage() {
                   <p className="font-bold text-white uppercase text-[10px] tracking-wider text-amber-300">
                     Customer Info
                   </p>
-                  <p><strong>Phone:</strong> {activeEnquiry.phone}</p>
-                  <p><strong>Email:</strong> {activeEnquiry.email}</p>
+                  <p><strong>Phone:</strong> {activeEnquiry.phone || <span className="text-ink-500">Not provided</span>}</p>
+                  <p><strong>Email:</strong> {activeEnquiry.email || <span className="text-ink-500">Not provided</span>}</p>
                   <p><strong>Service:</strong> {activeEnquiry.service_type}</p>
                 </div>
 
@@ -381,19 +394,29 @@ export default function EnquiriesDashboardPage() {
 
               {/* Modal Actions */}
               <div className="pt-2 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
-                <a
-                  href={whatsappService.generateArtistToClientUrl(
-                    activeEnquiry.phone,
-                    activeEnquiry.client_id,
-                    activeEnquiry.full_name
-                  )}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-5 text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/50"
-                >
-                  <MessageCircle size={15} />
-                  <span>Open WhatsApp with Client</span>
-                </a>
+                {activeEnquiry.phone ? (
+                  <a
+                    href={whatsappService.generateArtistToClientUrl(
+                      activeEnquiry.phone,
+                      activeEnquiry.client_id,
+                      activeEnquiry.full_name
+                    )}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full sm:w-auto rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-5 text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/50"
+                  >
+                    <MessageCircle size={15} />
+                    <span>Open WhatsApp with Client</span>
+                  </a>
+                ) : activeEnquiry.email ? (
+                  <a
+                    href={`mailto:${activeEnquiry.email}?subject=${encodeURIComponent(`Tattoo Iconic Inquiry #${activeEnquiry.client_id}`)}`}
+                    className="w-full sm:w-auto rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-5 text-xs flex items-center justify-center gap-2 shadow-lg shadow-blue-950/50"
+                  >
+                    <Mail size={15} />
+                    <span>Send Email to Client</span>
+                  </a>
+                ) : null}
 
                 <a
                   href={googleSheetUrl}

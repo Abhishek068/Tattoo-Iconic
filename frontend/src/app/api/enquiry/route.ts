@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
 
     const cleanPhone = phone ? phone.replace(/[^0-9+]/g, "") : "";
     const hasValidPhone = cleanPhone.replace(/[^0-9]/g, "").length >= 7;
-    const hasValidEmail = Boolean(email && email.includes("@"));
+    const hasValidEmail = Boolean(email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
 
     if (!hasValidPhone && !hasValidEmail) {
       return NextResponse.json(
@@ -66,7 +66,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const finalPhone = hasValidPhone ? cleanPhone : (phone || "+91 82387 67100");
+    // Never replace customer phone with artist phone; store genuine phone or empty string
+    const finalPhone = hasValidPhone ? cleanPhone : "";
+    const finalEmail = hasValidEmail ? email : (email || "");
     const finalIdea = tattooIdea || detailedDescription || "General Consultation Inquiry";
 
     // 2. Generate Collision-Resistant Client ID
@@ -78,7 +80,7 @@ export async function POST(req: NextRequest) {
       client_id: clientId,
       submitted_at: submittedAt,
       full_name: fullName,
-      email: email || `${clientId.toLowerCase()}@client.tattooiconic.in`,
+      email: finalEmail,
       phone: finalPhone,
       tattoo_idea: finalIdea,
       tattoo_style: tattooStyle,
